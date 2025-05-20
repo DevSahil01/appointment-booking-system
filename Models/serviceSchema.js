@@ -1,0 +1,33 @@
+const mongoose=require('mongoose');
+const services=mongoose.Schema({
+    serviceProvideId:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"serviceProvider"
+    }],
+    serviceName:{
+        type:String,
+        require:true
+    },
+    serviceDuration:{
+        type:Number,
+        require:true
+    },
+    serviceTimeslots:{
+        type:Array,
+        require:true
+    },
+    serviceImage:{
+        data:String,
+        contentType:String,
+        Filename:String
+    },
+    serviceCharges:{
+        type:Number,
+        require:true
+    },
+    serviceDesc:{
+        type:String,
+        require:true
+    }
+})
+module.exports=mongoose.model('Services',services)

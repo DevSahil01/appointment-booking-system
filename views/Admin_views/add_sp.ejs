@@ -1,0 +1,45 @@
+<%- include('partials/admin_page'); %>
+    <div class="ack" id="ack"><p>
+        <%= ack %>
+    </p></div>
+    <div class="add_sp">
+            <h4>Add service provider</h4>
+            <form method="post" action="add_sp">
+            <label for="email">Enter Service Provider Email:</label><br>
+            <input type="email" class="inputs" name="email" id="email" required><br>
+            <label for="password">Enter password:</label><br>
+            <input type="password" class="inputs"   name="password" id="password" required><br>
+            <label for="password">Confirm Password:</label><br>
+            <input type="password" class="inputs" id="Cpassword"  onkeyup="validate()" required><br>
+            <p id="msg_txt"></p>
+            <input type="submit" class="submit" value="Add">
+        </form>
+        </div>
+</body>
+<script>
+    function validate(){
+       const warning=document.getElementById('msg_txt')
+       const input=document.getElementsByClassName('inputs')
+       if(input[1].value != input[2].value){
+           warning.style.color='red'
+           warning.innerText=`*The password dosen't match`
+       }
+       else{
+            warning.style.display='none';
+       }
+    }
+   const msg= document.getElementById('ack')
+   if(msg.firstChild.innerText==''){
+        msg.style.display='none'
+   }
+   else{
+    msg.style.display='block';
+   }
+   setTimeout(() => {
+        if(msg.style.display=="block"){
+            msg.style.display='none';
+            msg.style.transition="ease 0.4s"
+        }
+   }, 4000);
+</script>
+</html>

@@ -1,0 +1,23 @@
+<%- include('partials/admin_page'); %>
+    <table border="1" style="border-collapse:collapse;" class="sp_table">
+        <thead>
+            <th>id</th>
+            <th>Email</th>
+            <th>Service Provider ID</th>
+            <th>Registered Date</th>
+        </th>
+        </thead>
+        <tbody>
+    <% index=1 %>
+    <% sp.forEach(function(sps,index){ %>
+        <tr >
+            <td><%=++index%></td>
+            <td><%= sps.email%></td>
+            <td><%=sps._id%></td>
+            <td><%=sps.data.toDateString()%></td>
+        </tr>
+    <%})%>
+        </tbody>
+        </table>
+</body>
+</html>

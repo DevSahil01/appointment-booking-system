@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+body{
+    font-family: 'Montserrat',sans-serif;
+    background-color: #dcece6;
+    margin:0;
+}
+form{
+    margin:auto;
+    margin-top:50px;
+    height: fit-content;
+    width:40%;
+    background-color:#f4f5fd;
+    align-items: center;
+    text-align: center;
+    border-radius:10px;
+    -webkit-box-shadow: 3px 2px 15px -2px rgba(97,97,97,1);
+    -moz-box-shadow: 3px 2px 15px -2px rgba(97,97,97,1);
+     box-shadow: 3px 2px 15px -2px rgba(97,97,97,1);
+    
+}
+h3{
+    font-size: xx-large;
+    color:#111820;
+}
+.inputs{
+    font-size: larger;
+    margin:auto;
+    margin-top:20px;
+    margin-bottom: 20px;
+    height: 30px;
+    width:70%;
+    display: block;
+    outline:none;
+    background-color: #f4f5fd;
+    border:none;
+    border-bottom: 2px solid black;
+}
+#password{
+    display: inline;
+}
+#show_password{
+    color:#f3aa4e;
+    display: inline;
+    position: absolute;
+    cursor: pointer;
+}
+.inputs:focus{
+    border-bottom: 2px solid #f3aa4e;
+}
+label{
+    margin:auto;
+}
+.submit_btn{
+    margin:40px 0 50px 0;
+    height:40px;
+    width: 70%;
+    background-color: #111820;
+    color: #f3aa4e;
+    font-size: large;
+}
+.submit_btn:hover{
+    background-color: #f3aa4e;
+    transition: background-color 0.4s ease;
+    color:black;
+    border:none;
+}
+.alert{
+    height:fit-content;
+    width:40%;
+    text-align: center;
+    margin:auto;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color:#cb080b15;
+    color:#cb080b;
+    font-size: medium;
+    padding:5px 0 5px 0;
+    border-left: 5px solid #cb080b;
+}
+.side_interaction{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width:max-content;
+    background-color:#131c31;
+    gap:30px;
+}
+.links{
+    color:white;
+    display:flex;
+    margin:0 20px 0 20px;
+}
+.links:hover{
+    background-color:#29324a;
+    border-radius: 8px;
+    height:max-content;
+}
+.links a{
+    text-decoration: none;
+    font-size: larger;
+}
+.links a:active{
+    color:black;
+}
+.side_interaction img{
+    display: inline;
+}
+.profile{
+    margin-top:100%;
+}

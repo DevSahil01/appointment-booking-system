@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@600&display=swap');
+*{
+    font-family: "ubuntu",sans-serif;
+}
+body{
+    margin:0;
+}
+h3{
+    display: inline;
+    color:#2c4dff;
+    font-size: x-large;
+}
+.navigation{
+    background-color:#f4f5fd;
+    width: 100%;
+    height:50px;
+    align-items:center;
+    text-align: center;
+    padding-top: 20px;
+
+}
+.links{
+    text-decoration: none;
+    color:#42455e;
+    font-size: larger;
+    margin:30px 20px 0 20px;
+}
+.links:hover{
+   border-bottom:3px solid #2c4dff;
+   padding-bottom: 10px;
+   transition: ease-out 0.2s;
+}
+.add_sp{
+    margin:auto;
+    height:fit-content;
+    width: fit-content;
+    text-align: center;
+}
+.inputs{
+    height:35px;
+    width:400px;
+    margin:20px 20px 20px 20px;
+    border:none;
+    font-size:medium;
+    background-color: #e8e8e8;
+
+}
+.inputs:focus{
+    outline: none;
+    border-bottom:2px solid #267fff;
+    background-color:#e3eefc;
+}
+h4{
+    font-size: xx-large;
+}
+label{
+    font-size:medium;
+    font-weight: 400;
+    margin:20px 0 0 20px;
+}
+input[type="submit"]{
+    margin:auto;
+    height:40px;
+    width:100%;
+    font-family:"poppins",sans-serif;
+    font-size: medium;
+    color:white;
+    background-color:#267fff;
+    border:none;
+    margin-top:20px;
+}
+.ack{
+    height:50px;
+    width: 400px;
+    margin:auto;
+    margin-top: 20px;
+    padding-top:10px;
+    text-align: center;
+    color:#4ecc64;
+    border-left: 4px solid #4ecc64;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color:#f8fafb;
+}
+.sp_table{
+    margin:auto;
+    overflow: auto;
+    height:100vh;
+    width: 70%;
+    border:none;
+    font-family: "poppins",sans-serif;
+}
+.sp_table th{
+    width:100px;
+    height:40px;
+    background-color:#267fff;
+    color:white;
+    border:none;
+}
+.sp_table td{
+    color:#676767;
+    border:none;
+    height: 20px;
+}
+.sp_table tr:nth-child(even){
+    background-color:#f4f5fd;
+}

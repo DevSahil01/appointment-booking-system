@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+        body{
+            background-color:#ebebeb;
+        }
+        .main{
+            height:fit-content;
+            width: fit-content;
+            margin:auto;
+            margin-top:100px;
+            background-color: white;   
+            display: flex;
+            flex-direction: column-reverse; 
+        }
+        .inputs{
+            height:35px;
+            width:350px;
+            margin:20px 20px 20px 20px;
+            border:none;
+            font-size:medium;
+            background-color: #e8e8e8;
+            font-family: "Poppins", sans-serif;
+        }
+        label{
+            font-family: "Poppins", sans-serif;
+            font-size:medium;
+            font-weight: 400;
+            margin:20px 0 0 20px;
+        }
+        .inputs:focus{
+            outline:none;
+            border-bottom:3px solid #3a6df0;
+        }
+        input[type="submit"]{
+            margin:auto;
+            height:40px;
+            width:100%;
+            font-family:"poppins",sans-serif;
+            font-size: medium;
+            color:white;
+            background-color: #3a6df0;
+            border:none;
+            margin-top:20px;
+        }
+        h2{
+            font-family: "poppins",sans-serif;
+            font-size: xx-large;
+            margin:20px 0 20px 80px;
+        }
+       .msg{
+           margin:auto;
+           height:50px;
+           width:100%;
+           border:2px solid rgba(255, 0, 0, 0.448);
+           background-color: rgba(255, 31, 31, 0.174);
+           font-family: "poppins",sans-serif;
+           font-size:medium;
+           color:rgba(149, 0, 0, 0.834);
+           text-align: center;
+           display: block;
+       }
+
+    </style>
+</head>
+<body>
+    <div class="main" id="main">
+        
+        <form method="post" id="form" onsubmit="return false">
+            <label for="username" >Enter Your Username :</label><br>
+            <input type="text" name="username" id="username" class="inputs" required><br>
+            <label for="password" >Enter Your password :</label><br>
+            <input type="password" name="password" id="password" class="inputs" required><br>
+            <label for="show_pass" >Show Password :</label>
+            <input type="checkbox" id="show_pass">
+            <input type="submit" value="Login" onclick="validate()">
+        </form>
+        <h2>Admin Login</h2>
+    </div>
+</body>
+<script>
+    //Code for password visisbility 
+    var check_bx=document.getElementById("show_pass");
+    check_bx.addEventListener("click",function(){
+      var input= document.getElementById('password');
+      if(input.type =="password"){
+        input.type="text";
+      }
+      else{
+        input.type="password";
+      }
+    });
+    // Alert msg when credentials are invalid
+    function show_alert(){
+        console.log("wrong credentials!");
+        var div=document.createElement('div');
+        div.innerHTML="<p>You are not authorized person!</p>";
+        div.classList.add('msg')
+        var main=document.getElementById('main');
+        main.appendChild(div)
+    }
+    //code for the validation of the inputs 
+    function validate(){
+        var inputs=document.getElementsByClassName("inputs");
+        if(inputs[0].value=="Admin@22" && inputs[1].value=="admin@2022"){
+            console.log("Now you are logged in!");
+            window.location.href="/admin_page"; 
+        }
+        else{
+            show_alert();
+            var alert_bx=document.getElementsByClassName('msg');
+            setTimeout(() => {
+                if(alert_bx[0].style.display=="block"){
+                alert_bx[0].style.display="none";
+                alert_bx[0].style.transition="ease 0.5s";
+                }
+                else{
+                    alert_bx[0].style.display="none";
+                alert_bx[0].style.transition="ease 0.5s";
+                }
+            },4000);      
+        }
+    }
+
+  
+</script>
+
+</html>

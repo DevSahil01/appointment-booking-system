@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+    <div class="alert" id="alert"><h4><%= error %></h4></div>
+    <form method="post" action="/api/spLogin">
+        <h3>Login</h3>
+        <label for="email" >Enter Your Email :</label>
+        <input type="email" name="email" class="inputs"  required>
+        <label for="password" >Enter Your password :</label>
+        <input type="password" name="password" class="inputs" id="password" required><img src="hide.png" id="show_password" height="25px" width="25px">
+        <p>change Or <a href="/">Forgot password ?</a></p>
+        <input type="submit" name="submit" class="submit_btn" value="login">
+    </form>
+</body>
+<script src="./javascript/C_logic.js"></script>
+</html>
