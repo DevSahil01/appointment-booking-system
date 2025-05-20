@@ -1,33 +1,37 @@
-const mongoose=require('mongoose');
-const services=mongoose.Schema({
-    serviceProvideId:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"serviceProvider"
+const mongoose = require('mongoose');
+const services = mongoose.Schema({
+    serviceProvideId: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "serviceProvider"
     }],
-    serviceName:{
-        type:String,
-        require:true
+    serviceName: {
+        type: String,
+        required: true
     },
-    serviceDuration:{
-        type:Number,
-        require:true
+    serviceDuration: {
+        type: Number,
+        required: true
     },
-    serviceTimeslots:{
-        type:Array,
-        require:true
+    serviceTimeslots: {
+        type: Array,
+        required: true
     },
-    serviceImage:{
-        data:String,
-        contentType:String,
-        Filename:String
+    slotCapacity: {
+        type: Number,
+        required: true  // <-- New Field
     },
-    serviceCharges:{
-        type:Number,
-        require:true
+    serviceImage: {
+        data: String,
+        contentType: String,
+        Filename: String
     },
-    serviceDesc:{
-        type:String,
-        require:true
+    serviceCharges: {
+        type: Number,
+        required: true
+    },
+    serviceDesc: {
+        type: String,
+        required: true
     }
-})
-module.exports=mongoose.model('Services',services)
+});
+module.exports = mongoose.model('Services', services);

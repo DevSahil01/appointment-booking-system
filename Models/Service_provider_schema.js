@@ -31,6 +31,18 @@ const sp_info=mongoose.Schema({
         type:String,
         require:true,
     },
+     location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+      default: 'Point'
+    },
+    coordinates: {
+      type: [Number], 
+      required: true
+    }
+  },
     owner_contact_email:{
         type:String
     },
@@ -52,5 +64,6 @@ const sp_info=mongoose.Schema({
     CredentialId:mongoose.Types.ObjectId
 
 })
+sp_info.index({ location: '2dsphere' });
 
 module.exports=mongoose.model('serviceProvider',sp_info)

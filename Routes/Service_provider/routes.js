@@ -3,6 +3,7 @@ const multer=require('multer');
 const moment=require('moment')
 const sp_schema=require('../../Models/Service_provider_schema');
 const services=require('../../Models/serviceSchema');
+const holidaySchema = require('../../Models/holidaySchema')
 const router=express.Router();
 const path=require('path');
 const session=require('express-session');
@@ -36,11 +37,13 @@ router.post('/api/spLogin',function(req,res){
                                     httpOnly:true
                               })
            if(docs.setup==true){
-              res.redirect("http://localhost:3000/panel")
+              res.redirect("http://localhost:3001/panel")
               
            }
            else{
-              res.status(201).send("setup not done")
+            //   res.status(201).send("setup not done")
+              res.redirect("http://localhost:3001/setup")
+
            }
         }
         else{
@@ -83,59 +86,62 @@ router.get('/api/setup',(req,res)=>{
     }
   
 })
-router.post('/api/setup',multipleUpload,sp_authentication,(req,res)=>{
-           console.log(req.files)
-           const files=req.files
-           let imgArray=files.B_Images.map(file=>{
-                let img=fs.readFileSync(file.path)
-                return encodedImg=img.toString('base64')
-           })
-           let final_img=imgArray.map((src,index)=>{
-                return f_img={
-                    data:src,
-                    contentType:files.B_Images[index].mimetype,
-                    Filename:files.B_Images[index].originalname
-                }
-           })
-           
 
-            const sp_info=new sp_schema({
-                B_name:req.body.B_name,
-                B_address:req.body.B_address,
-                B_contact_email:req.body.B_contact_email,
-                B_contact_no:req.body.B_contact_no,
-                B_Images:final_img,
-                B_pimage:{
-                    data:fs.readFileSync(files.B_pimage[0].path).toString('base64'),
-                    contentType:'image/jpg',
-                    Filename:files.B_pimage[0].filename
-                },
-                owner_name:req.body.owner_name,
-                owner_address:req.body.owner_address,
-                owner_contact_email:req.body.owner_contact_email,
-                owner_contact_no:req.body.owner_contact_No,
-                service_cat:req.body.service_cat,
-                service_desc:req.body.service_desc,
-                CredentialId:req.id
-            })
-            sp_info.save((err,doc)=>{
-                if(err){
-                    console.log(err)
-                }
-                else{
-                    database.findByIdAndUpdate(req.id,{setup:true},(err,doc)=>{
-                        if(err){
-                            console.log(err)
-                        }
-                        else{
-                            console.log('document is updated',doc)
-                        }
-                    })
-                    res.redirect('http://localhost:3000/panel')
-                }
-             }) 
-       
-})
+router.post('/api/setup', multipleUpload, sp_authentication, (req, res) => {
+  const files = req.files;
+ console.log(req.body)
+
+
+  let imgArray = files.B_Images.map(file => {
+    const img = fs.readFileSync(file.path);
+    return img.toString('base64');
+  });
+
+  let final_img = imgArray.map((src, index) => ({
+    data: src,
+    contentType: files.B_Images[index].mimetype,
+    Filename: files.B_Images[index].originalname
+  }));
+
+  const sp_info = new sp_schema({
+    B_name: req.body.B_name,
+    B_address: req.body.B_address,
+    B_contact_email: req.body.B_contact_email,
+    B_contact_no: req.body.B_contact_no,
+    B_Images: final_img,
+    B_pimage: {
+      data: fs.readFileSync(files.B_pimage[0].path).toString('base64'),
+      contentType: files.B_pimage[0].mimetype,
+      Filename: files.B_pimage[0].originalname
+    },
+    owner_name: req.body.owner_name,
+    owner_address: req.body.owner_address,
+    owner_contact_email: req.body.owner_contact_email,
+    owner_contact_no: req.body.owner_contact_No,
+    service_cat: req.body.service_cat,
+    service_desc: req.body.service_desc,
+    CredentialId: req.id,
+
+   location: {
+      type: 'Point',
+      coordinates: [parseFloat(req.body.longitude), parseFloat(req.body.latitude)]
+    }
+  });
+
+  sp_info.save((err, doc) => {
+    if (err) {
+      console.log(err);
+    } else {
+      database.findByIdAndUpdate(req.id, { setup: true }, (err, doc) => {
+        if (err) console.log(err);
+        else console.log('document is updated', doc);
+      });
+      res.redirect('http://localhost:3001/panel');
+    }
+  });
+});
+
+
 
 router.get('/api/profile',sp_authentication,async (req,res)=>{
     await sp_schema.findOne({CredentialId:req.id})
@@ -174,50 +180,50 @@ const Storage2=multer.diskStorage({
 const upload2=multer({storage:Storage2})
 const uploadFile=upload2.single('serviceImage')
 
-router.post('/api/services',uploadFile,sp_authentication,async(req,res)=>{
-            const spId=await sp_schema.findOne({CredentialId:req.id})
-            if(!req.file){
-                console.error('please upload a file');
-                res.status(400).send('message:please upload a file')
-            }
-            else{
-                // res.status(201).send('message:service is added')
-                const starttime=moment().utc().set({hour:8 ,minute:00})
-                const endTime=moment().utc().set({hour:20,minute:00})
-                
-                var timeslots=[]
 
-                while(starttime <= endTime){
-                    timeslots.push(new moment(starttime).format("HH:mm"))
-                    starttime.add(req.body.duration,"minutes")
-                }
-                console.log(timeslots)
-                const Services = new services({
-                    serviceProvideId:spId,
-                    serviceName:req.body.serviceName,
-                    serviceDuration:req.body.duration,
-                    serviceTimeslots:timeslots,
-                    serviceImage:{
-                        data:fs.readFileSync(req.file.path).toString('base64'),
-                        contentType:'image/jpg',
-                        Filename:req.file.filename
-                    },
-                    serviceDesc:req.body.serviceDesc,
-                    serviceCharges:req.body.serviceCharges
-                })
-                await Services.save((doc,err)=>{
-                    if(err){
-                        console.log(err)
-                    }
-                    else{
-                       console.log(doc)
-                       console.log('Service provider added successfully')
-                    }
-                })
-                res.status(201).send('message:service is added')
-            }
-   
-})
+//new functionality 
+router.post('/api/services', uploadFile, sp_authentication, async (req, res) => {
+    const spId = await sp_schema.findOne({ CredentialId: req.id });
+    if (!req.file) {
+        console.error('please upload a file');
+        return res.status(400).send('message:please upload a file');
+    }
+
+    const starttime = moment().utc().set({ hour: 8, minute: 0 });
+    const endTime = moment().utc().set({ hour: 20, minute: 0 });
+    const timeslots = [];
+
+    while (starttime <= endTime) {
+        timeslots.push(new moment(starttime).format("HH:mm"));
+        starttime.add(req.body.duration, "minutes");
+    }
+
+    const Services = new services({
+        serviceProvideId: spId,
+        serviceName: req.body.serviceName,
+        serviceDuration: req.body.duration,
+        serviceTimeslots: timeslots,
+        slotCapacity: req.body.slotCapacity, // <-- New line
+        serviceImage: {
+            data: fs.readFileSync(req.file.path).toString('base64'),
+            contentType: 'image/jpg',
+            Filename: req.file.filename
+        },
+        serviceDesc: req.body.serviceDesc,
+        serviceCharges: req.body.serviceCharges
+    });
+
+    await Services.save((err, doc) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('message: error saving service');
+        }
+        console.log(doc);
+        console.log('Service provider added successfully');
+        res.status(201).send('message:service is added');
+    });
+});
+
 
 //get services data
 router.get('/api/services',sp_authentication,async (req,res)=>{
@@ -234,6 +240,40 @@ router.get('/api/services',sp_authentication,async (req,res)=>{
     })
 })
 
+
+//add holiday of service provider 
+
+router.post('/api/addHoliday', sp_authentication, async (req, res) => {
+    console.log(req.body)
+  try {
+    const { date, reason } = req.body;
+    const serviceProviderId = req.id;
+
+    if (!date) {
+      return res.status(400).json({ message: 'Date is required.' });
+    }
+
+    // Check if already marked
+    const existing = await holidaySchema.findOne({ serviceProviderId, date });
+    if (existing) {
+      return res.status(409).json({ message: 'Holiday already marked for this date.' });
+    }
+
+    // Save holiday
+    const holiday = new holidaySchema({
+      serviceProviderId,
+      date,
+      reason: reason?.trim() || ''
+    });
+
+    await holiday.save();
+
+    res.status(200).json({ message: 'Holiday marked successfully.' });
+  } catch (error) {
+    console.error('Error marking holiday:', error);
+    res.status(500).json({ message: 'Server error. Try again later.' });
+  }
+});
 
 //endpoint to remove the service 
 router.delete('/api/services/:id',async (req,res)=>{
